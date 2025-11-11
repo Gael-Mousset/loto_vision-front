@@ -10,7 +10,7 @@ export const useBoardSocket = ({ code }: UseBoardSocketOptions) => {
   const [error, setError] = useState<string | null>(null);
 
   const socket: Socket = useMemo(() => {
-    return io("http://localhost:3000");
+    return io(import.meta.env.VITE_API_URL);
   }, []);
 
   useEffect(() => {

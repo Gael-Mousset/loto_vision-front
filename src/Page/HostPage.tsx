@@ -1,8 +1,7 @@
-// HostPage.tsx
 import React, { useState } from "react";
-import axios from "axios";
 import { useBoardSocket } from "../services/useBoardSocket";
 import NumberGrid from "../components/NumberGrid";
+import { createRoom } from "../services/room/createRoom";
 
 export const HostPage: React.FC = () => {
   const [code, setCode] = useState("");
@@ -10,9 +9,9 @@ export const HostPage: React.FC = () => {
 
   const handleCreateRoom = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/rooms");
-      setCode(res.data.code);
-      console.log("Salle créée avec le code :", res.data.code);
+      const code = await createRoom();
+      setCode(code);
+      console.log("Salle créée avec le code :", code);
     } catch (e) {
       console.log(e);
       alert("Erreur lors de la création de la salle");
@@ -20,7 +19,7 @@ export const HostPage: React.FC = () => {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4">
+    <div className="p-4 flex flex-col gap-4 items-center text-center">
       {!code && (
         <button
           onClick={handleCreateRoom}
@@ -31,7 +30,7 @@ export const HostPage: React.FC = () => {
       )}
 
       {code && (
-        <div className="border p-2 rounded">
+        <div className="border p-2 rounded w-full max-w-sm">
           <p className="font-bold">Code de la salle :</p>
           <p className="text-2xl">{code}</p>
           <p className="text-sm text-gray-500">
