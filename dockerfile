@@ -1,9 +1,10 @@
 # Utilisation de l'image Node.js pour construire le projet
-FROM node:22.16.0 AS build
+FROM node:22-alpine AS build
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --prefer-offline
 COPY . .
 
 # Définition de la variable d'environnement pour le build
@@ -22,5 +23,5 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 # fichier statique
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 8085
+EXPOSE 8086
 CMD ["nginx", "-g", "daemon off;"]
