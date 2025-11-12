@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useBoardSocket } from "../services/useBoardSocket";
 import NumberGrid from "../components/NumberGrid";
 import { joinRoom } from "../services/room/joinRoom";
